@@ -1,3 +1,17 @@
+/**
+ *          File: dlist.c
+ *
+ *        Create: 2015-1-19 10:03:37
+ *
+ *   Discription: sys/queue.h中的双向链表使用测试程序
+ *
+ *        Author: astrol 
+ *         Email: astrotycoon@gmail.com
+ *
+ *===========================================================================
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/queue.h>
@@ -5,13 +19,20 @@
 struct _Data {
 	int *pint;
 	LIST_ENTRY(_Data) entry;
+	/* 
+	 *	struct {
+	 *		struct _Data *le_next
+	 *		struct _Data **le_prev;
+	 *	}
+	 *
+	 */
 };
 
 #define INIT(i)	\
 		struct _Data *cur = (struct _Data *)calloc(1, sizeof(struct _Data));	\
 		cur->pint = (int *)calloc(1, sizeof(int));	\
 		*cur->pint = (i);	\
-		printf("%p -- %d\n", cur, *cur->pint);	
+		printf("%p -- (%p)%d\n", cur, cur->pint, *cur->pint);	
 
 int main(int argc, const char *argv[])
 {
