@@ -32,6 +32,19 @@ int main(int argc, const char *argv[])
 #endif
 	int i;
 
+	struct _Data *data1 = (struct _Data *)malloc(sizeof(struct _Data));
+	data1->value = 1;
+	SLIST_INSERT_HEAD(&head, data1, slist_entry);
+
+	struct _Data *data2 = (struct _Data *)malloc(sizeof(struct _Data));
+	data2->value = 2;
+	SLIST_INSERT_AFTER(data1, data2, slist_entry);		
+
+	struct _Data *data3 = (struct _Data *)malloc(sizeof(struct _Data));
+	data3->value = 3;
+	SLIST_INSERT_HEAD(&head, data3, slist_entry);
+
+#if 0
 	/* 往单链表中添加10个数据元素 */
 	struct _Data *prev = NULL;
 	for (i = 0; i < 10; i++) {
@@ -40,23 +53,36 @@ int main(int argc, const char *argv[])
 #ifdef _DEBUG
 		printf("%p -- %d\n", cur, cur->value);
 #endif
+#if 0
 		if (SLIST_EMPTY(&head))	{
 			SLIST_INSERT_HEAD(&head, cur, slist_entry);	
 		} else {
 			SLIST_INSERT_AFTER(prev, cur, slist_entry);		
 			// 为什么没有SLIST_INSERT_BEFORE()?
 		}
+#endif
+		if (SLIST_EMPTY(&head)) {
+			SLIST_INSERT_HEAD(&head, cur, slist_entry);	
+		} else if (i == 2) {
+			SLIST_INSERT_HEAD(&head, cur, slist_entry);	
+		} else {
+			SLIST_INSERT_AFTER(prev, cur, slist_entry);		
+		}
+
 		prev = cur;
 	}
 
 	puts("");
 
+#if 0
 #ifdef _DEBUG
 	printf("old head %p %p\n", &head, SLIST_FIRST(&head));
 #endif
 	SLIST_REMOVE_HEAD(&head, slist_entry);
 #ifdef _DEBUG
 	printf("new head %p %p\n", &head, SLIST_FIRST(&head));
+#endif
+#endif
 #endif
 
 	puts("");
