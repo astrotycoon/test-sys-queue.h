@@ -12,7 +12,9 @@ all:
 	$(CC) $(CFLAGS) stqueue.c -o stqueue 
 	$(CC) $(CFLAGS) tqueue.c -o tqueue 
 	$(CC) $(CFLAGS) tailq.c -o tailq
+	$(CC) $(CFLAGS) stailq.c -o stailq
+	$(CC) $(CFLAGS) circleq.c -o circleq
 
 clean:
-	$(RM) ddlist dlist simpleq slist sslist stqueue tqueue tailq
+	$(RM) ddlist dlist simpleq slist sslist stqueue tqueue tailq stailq circleq
 

@@ -16,7 +16,7 @@
 
 struct _Data {
 	int 				value;
-	TAILQ_ENTRY(_Data)	tailq_entry;
+	TAILQ_ENTRY(_Data)	next;
 };
 
 int main(int argc, const char *argv[])
@@ -34,44 +34,44 @@ int main(int argc, const char *argv[])
 	/* 2. 在队列末尾插入data1 */
 	struct _Data *data1 = (struct _Data *)calloc(1, sizeof(struct _Data));
 	data1->value = 1;
-	TAILQ_INSERT_TAIL(&head, data1, tailq_entry);
+	TAILQ_INSERT_TAIL(&head, data1, next);
 	/* 3. 在队列末尾插入data2 */
 	struct _Data *data2 = (struct _Data *)calloc(1, sizeof(struct _Data));
 	data2->value = 2;
-	TAILQ_INSERT_TAIL(&head, data2, tailq_entry);
+	TAILQ_INSERT_TAIL(&head, data2, next);
 	/* 4. 在data1之后插入data3 */
 	struct _Data *data3 = (struct _Data *)calloc(1, sizeof(struct _Data));
 	data3->value = 3;
-	TAILQ_INSERT_AFTER(&head, data1, data3, tailq_entry);
+	TAILQ_INSERT_AFTER(&head, data1, data3, next);
 	/* 5. 在data2之前插入data4 */
 	struct _Data *data4 = (struct _Data *)calloc(1, sizeof(struct _Data));
 	data4->value = 4;
-	TAILQ_INSERT_BEFORE(data2, data4, tailq_entry);
+	TAILQ_INSERT_BEFORE(data2, data4, next);
 	/* 6. 在队列首部插入data5 */
 	struct _Data *data5 = (struct _Data *)calloc(1, sizeof(struct _Data));
 	data5->value = 5;
-	TAILQ_INSERT_HEAD(&head, data5, tailq_entry);
+	TAILQ_INSERT_HEAD(&head, data5, next);
 	/* 遍历队列 */
-	TAILQ_FOREACH(pdata, &head, tailq_entry) {
+	TAILQ_FOREACH(pdata, &head, next) {
 		printf("pdata->value1 = %d\n", pdata->value);		
 	}
 	puts("");
 	/* 7. 删除data5 */
-	TAILQ_REMOVE(&head, data5, tailq_entry);
+	TAILQ_REMOVE(&head, data5, next);
 
-	TAILQ_FOREACH(pdata, &head, tailq_entry) {
+	TAILQ_FOREACH(pdata, &head, next) {
 		printf("pdata->value1 = %d\n", pdata->value);		
 	}
 	puts("");
 
 	/* 正序遍历尾队列 */
 	/* 方法一 */
-	TAILQ_FOREACH(pdata, &head, tailq_entry) {
+	TAILQ_FOREACH(pdata, &head, next) {
 		printf("pdata->value1 = %d\n", pdata->value);		
 	}
 	puts("");
 	/* 方法二 */
-	for (pdata = TAILQ_FIRST(&head); pdata; pdata = TAILQ_NEXT(pdata, tailq_entry)) {
+	for (pdata = TAILQ_FIRST(&head); pdata; pdata = TAILQ_NEXT(pdata, next)) {
 		printf("pdata->value1 = %d\n", pdata->value);		
 	}
 
@@ -79,14 +79,14 @@ int main(int argc, const char *argv[])
 
 	/* 逆序遍历尾队列 */
 	/* 方法一 */
-	TAILQ_FOREACH_REVERSE(pdata, &head, tailq_head, tailq_entry) {
+	TAILQ_FOREACH_REVERSE(pdata, &head, tailq_head, next) {
 		printf("pdata->value1 = %d\n", pdata->value);		
 	}
 	puts("");
 	/* 方法二 */
-	for (pdata = TAILQ_LAST(&head, tailq_head); pdata; pdata = TAILQ_PREV(pdata, tailq_head, tailq_entry)) {
+	for (pdata = TAILQ_LAST(&head, tailq_head); pdata; pdata = TAILQ_PREV(pdata, tailq_head, next)) {
 		printf("pdata->value1 = %d\n", pdata->value);		
-		TAILQ_REMOVE(&head, pdata, tailq_entry);
+		TAILQ_REMOVE(&head, pdata, next);
 		free(pdata);
 	}
 
